@@ -12,6 +12,11 @@ function updateTotalField(totalFieldId,depositAmount) {
   currentDeposit.innerText = sum + depositAmount;
 }
   
+  function getCurrentBalance() {
+  const previous_balance = document.getElementById('balance_total') 
+  const previous_balance_number = parseFloat(previous_balance.innerText)
+  return previous_balance_number
+  }
 function updateBalance(depositAmount,isCalculation ) {
     //increase balance  
   const previous_balance = document.getElementById('balance_total') 
@@ -22,17 +27,22 @@ function updateBalance(depositAmount,isCalculation ) {
   else {
      previous_balance.innerText = previous_balance_number - depositAmount ;
   }
- 
+
 }
 
   //handle deposit button event
 document.getElementById('deposit_button').addEventListener('click', function () {
   //set deposit input
   const depositAmount = getInputValue('deposit_input')
-    //set current Deposit
+  if (depositAmount > 0) {
+     //set current Deposit
   updateTotalField('deposit_total',depositAmount)
   //increase balance  
   updateBalance(depositAmount,true)
+  }
+  else {
+    console.log('Please Give Positive Money ');
+   }
 
 })
 
@@ -40,10 +50,16 @@ document.getElementById('deposit_button').addEventListener('click', function () 
 document.getElementById('withdraw_button').addEventListener('click', function () {
     //set withdraw input
   const withdraw_input_number = getInputValue('withdraw_input')
-  //set previous Withdraw  
+  const currentBalance = getCurrentBalance()
+  if (withdraw_input_number > 0 && withdraw_input_number < currentBalance ) {
+    //set previous Withdraw  
     updateTotalField('previous_withdraw',withdraw_input_number)
   //decrease balance  
   updateBalance(withdraw_input_number,false)
+  }
+  else {
+    console.log("You Can  Not ");
+  }
 
 })
 
